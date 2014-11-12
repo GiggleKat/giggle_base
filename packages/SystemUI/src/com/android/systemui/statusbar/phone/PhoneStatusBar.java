@@ -286,6 +286,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     public QuickSettingsContainerView mSettingsContainer; // PIE
     int mSettingsPanelGravity;
 
+    // DoubleTap to Sleep
+    boolean mDoubleTapToSleep = false;
+
     // Ribbon settings
     private boolean mHasQuickAccessSettings;
     private boolean mQuickAccessLayoutLinked = true;
@@ -857,6 +860,15 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mBrightnessControl = !autoBrightness && Settings.System.getIntForUser(
                     resolver, Settings.System.STATUS_BAR_BRIGHTNESS_CONTROL,
                     0, UserHandle.USER_CURRENT) == 1;
+            //update GestureListener only if something has changed
+            final boolean doubleTapToSleep = Settings.System.getIntForUser(
+                    resolver, Settings.System.DOUBLE_TAP_SLEEP_GESTURE, 
+                        0, UserHandle.USER_CURRENT) == 1;
+            if (doubleTapToSleep != mDoubleTapToSleep) {
+                mStatusBarView.setGestureListener(doubleTapToSleep);
+                mDoubleTapToSleep = doubleTapToSleep;
+            }
+
             String notificationShortcutsIsActive = Settings.System.getStringForUser(resolver,
                     Settings.System.NOTIFICATION_SHORTCUTS_CONFIG, UserHandle.USER_CURRENT);
             mNotificationShortcutsIsActive = !(notificationShortcutsIsActive == null
@@ -4665,6 +4677,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
 
 	updateBatteryIcons();
+
+        mDoubleTapToSleep=false;
+
         setAreThereNotifications();
 
         mStatusBarContainer.addView(mStatusBarWindow);

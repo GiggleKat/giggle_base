@@ -682,7 +682,8 @@ public class TelephonyManager {
     public static final int NETWORK_TYPE_GSM = 16;
     /** Current network is TD_SCDMA {@hide} */
     public static final int NETWORK_TYPE_TD_SCDMA = 17;
-
+    /** Current network is IWLAN {@hide} */
+    public static final int NETWORK_TYPE_IWLAN = 18;
 
     /** Current network is DC-HSPAP
     * @hide
@@ -811,6 +812,7 @@ public class TelephonyManager {
             case NETWORK_TYPE_DCHSPAP:
                 return NETWORK_CLASS_3_G;
             case NETWORK_TYPE_LTE:
+            case NETWORK_TYPE_IWLAN:
                 return NETWORK_CLASS_4_G;
             default:
                 return NETWORK_CLASS_UNKNOWN;
@@ -864,9 +866,11 @@ public class TelephonyManager {
             case NETWORK_TYPE_GSM:
                 return "GSM";
             case NETWORK_TYPE_TD_SCDMA:
-                return "TD_SCDMA";
+                return "TD-SCDMA";
             case NETWORK_TYPE_DCHSPAP:
-                return "DC-HSPA+";
+                return "DC-HSPA+";    
+            case NETWORK_TYPE_IWLAN:
+                return "IWLAN";
             default:
                 return "UNKNOWN";
         }
